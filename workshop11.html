@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Workshop 11 : Material 3 Theme &amp; ColorScheme Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f6f2;
+    --ink:#1a1d23;
+    --muted:#6b7280;
+    --line:#e5e3dc;
+    --card:#ffffff;
+    --accent:#0f766e;
+    --accent-soft:#e6f4f1;
+    --warn-bg:#fff7ed;
+    --warn-line:#fdba74;
+    --code-bg:#0f172a;
+    --code-ink:#e2e8f0;
+    --code-comment:#94a3b8;
+    --tag:#475569;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Prompt',system-ui,sans-serif;line-height:1.65}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 24px 96px}
+  header.hero{padding:40px 0 28px;border-bottom:1px solid var(--line);margin-bottom:36px}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  h1{font-size:34px;line-height:1.2;margin:10px 0 6px;font-weight:700}
+  .subtitle{color:var(--muted);font-size:16px;max-width:680px}
+  .section-label{display:inline-block;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--tag);background:#ecebe5;padding:5px 10px;border-radius:4px;margin:48px 0 14px;font-weight:600}
+  h2{font-size:24px;margin:6px 0 16px;font-weight:600;line-height:1.35}
+  h3{font-size:18px;margin:24px 0 10px;font-weight:600}
+  p{margin:0 0 14px}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f1efe8;font-weight:600;font-size:13px;letter-spacing:.02em}
+  tr:last-child td{border-bottom:0}
+  td code{background:#f1efe8;padding:2px 6px;border-radius:4px;font-size:13px}
+  .step-tag{display:inline-block;background:var(--accent);color:#fff;font-size:11px;letter-spacing:.2em;padding:5px 12px;border-radius:4px;font-weight:600;margin-bottom:6px}
+  .code-label{font-size:12px;color:var(--muted);margin:6px 0 4px;font-family:'JetBrains Mono',monospace}
+  pre{background:var(--code-bg);color:var(--code-ink);padding:18px 20px;border-radius:8px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.6;margin:0 0 18px}
+  pre code{font-family:inherit;color:inherit;background:transparent;padding:0}
+  .filetree{background:#0f172a;color:#e2e8f0;padding:16px 20px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:13px;white-space:pre;margin-bottom:16px}
+  .callout{background:var(--warn-bg);border-left:4px solid var(--warn-line);padding:14px 18px;border-radius:6px;margin:18px 0;font-size:14.5px}
+  .callout strong{color:#9a3412}
+  .tip{background:var(--accent-soft);border-left:4px solid var(--accent);padding:14px 18px;border-radius:6px;margin:18px 0;font-size:14.5px}
+  ol.lab{padding-left:22px}
+  ol.lab li{margin-bottom:10px}
+  .lab-part{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.05em;margin-top:20px;margin-bottom:8px;text-transform:uppercase}
+  hr{border:0;border-top:1px dashed var(--line);margin:32px 0}
+  .palette{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 20px}
+  .swatch{height:54px;border-radius:6px;display:flex;align-items:flex-end;padding:6px 8px;font-size:11px;font-family:'JetBrains Mono',monospace}
+  kbd{background:#1a1d23;color:#f7f6f2;padding:3px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px}
+
+  /* กล่องอธิบายโค้ด สำหรับให้นักศึกษาศึกษาเอง */
+  .explain{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 4px 10px;margin:0 0 22px}
+  .explain summary{cursor:pointer;list-style:none;padding:12px 18px;font-weight:600;font-size:14.5px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .explain summary::-webkit-details-marker{display:none}
+  .explain summary::before{content:"▸";transition:transform .2s;font-size:13px}
+  .explain[open] summary::before{transform:rotate(90deg)}
+  .explain .body{padding:2px 18px 4px}
+  .explain dl{margin:0}
+  .explain dt{font-family:'JetBrains Mono',monospace;font-size:13px;background:#f1efe8;color:#0f5d56;display:inline-block;padding:2px 8px;border-radius:5px;margin:12px 0 4px}
+  .explain dd{margin:0 0 6px;font-size:14.5px;color:var(--ink)}
+  .explain .line-note{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+  .explain .line-note:last-child{border-bottom:0}
+  .explain .ln{flex:none;font-family:'JetBrains Mono',monospace;font-size:12px;color:#fff;background:var(--accent);border-radius:4px;padding:1px 7px;height:fit-content;margin-top:2px}
+  .explain .nt{font-size:14.5px}
+  .explain .nt code{background:#f1efe8;padding:1px 5px;border-radius:4px;font-size:12.5px;font-family:'JetBrains Mono',monospace}
+
+  /* ม็อคอัพแอปแบบกดเล่นได้ */
+  .demo-wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;margin:20px 0 8px}
+  .phone{flex:none;width:300px;background:#0c1320;border-radius:36px;padding:12px;box-shadow:0 24px 60px rgba(15,23,42,.28);position:relative}
+  .phone .notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:90px;height:18px;background:#0c1320;border-radius:0 0 14px 14px;z-index:5}
+  .screen{border-radius:26px;overflow:hidden;background:#f7f6f2;height:560px;display:flex;flex-direction:column;transition:background .35s}
+  .screen.dark{background:#101418}
+  .appbar{padding:18px 16px 14px;display:flex;align-items:center;justify-content:space-between;color:#fff;transition:background .35s}
+  .appbar .title{font-size:15px;font-weight:600}
+  .appbar .icon-btn{width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  .appbar .icon-btn:hover{background:rgba(255,255,255,.3)}
+  .screen-body{padding:16px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:12px}
+  .m-card{border-radius:16px;padding:18px;transition:background .35s,color .35s}
+  .m-card h4{margin:0 0 6px;font-size:17px}
+  .m-card p{margin:0;font-size:12.5px}
+  .m-btn-row{display:flex;gap:10px}
+  .m-btn{flex:1;border:none;border-radius:20px;padding:11px 8px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:filter .15s}
+  .m-btn:active{filter:brightness(.9)}
+  .m-btn.outlined{background:transparent}
+  .m-section-label{font-size:12.5px;font-weight:700;margin-top:4px;transition:color .35s}
+  .m-swatch{border-radius:8px;padding:11px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;cursor:pointer;border:none;width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;transition:transform .12s,filter .15s}
+  .m-swatch:hover{filter:brightness(1.06);transform:translateX(3px)}
+  .m-swatch:active{transform:translateX(0) scale(.99)}
+  .m-swatch .tap{font-size:10px;opacity:.7;font-weight:500}
+  .m-seedhint{font-size:11px;margin:-4px 0 2px;transition:color .35s}
+  .m-reset{align-self:flex-start;background:none;border:none;font-family:inherit;font-size:11px;text-decoration:underline;cursor:pointer;padding:2px 0;transition:color .35s}
+  .m-fab{position:absolute;right:26px;bottom:26px;width:52px;height:52px;border-radius:18px;border:none;color:#fff;font-size:24px;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.25);transition:background .35s}
+  .demo-guide{flex:1;min-width:240px}
+  .demo-guide h3{margin-top:0}
+  .demo-guide .hot{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .demo-guide .hot:last-child{border-bottom:0}
+  .demo-guide .num{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .demo-guide .hot div{font-size:14px}
+  .demo-guide .hot b{color:var(--accent)}
+  .toast{position:absolute;left:16px;right:16px;bottom:90px;background:#1a1d23;color:#fff;padding:11px 14px;border-radius:8px;font-size:12.5px;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+
+  /* ── ไกด์หาจุดแก้ไข + ม็อคอัพผลลัพธ์ที่ต้องการ ── */
+  .guide-tbl td:first-child{white-space:nowrap;font-weight:600;color:var(--accent)}
+  .guide-tbl td code{background:#f1efe8;padding:1px 5px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace}
+  .find{display:inline-block;background:#fffbe6;border:1px dashed #d4b106;border-radius:5px;padding:1px 7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8a6d00}
+  .target-badge{display:inline-block;background:#15803d;color:#fff;padding:4px 10px;border-radius:4px;font-size:12px;letter-spacing:.1em;font-weight:600;margin-bottom:8px}
+  .menu{position:absolute;top:54px;right:14px;background:#fff;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.22);overflow:hidden;z-index:6;min-width:150px}
+  .screen.dark .menu{background:#2a2f33;color:#e0e3e0}
+  .menu-item{display:flex;align-items:center;gap:10px;padding:11px 14px;font-size:13px;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit;color:inherit}
+  .menu-item:hover{background:rgba(125,125,125,.14)}
+  .menu-item.active{font-weight:700}
+  .menu-item .check{margin-left:auto;font-size:13px}
+  .seed-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 0}
+  .seed-row .lbl{font-size:11px;transition:color .35s}
+  .seed-dot{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.7);cursor:pointer;padding:0;transition:transform .12s}
+  .seed-dot:hover{transform:scale(1.12)}
+  .seed-dot.sel{outline:2px solid #fff;outline-offset:2px;box-shadow:0 0 0 2px rgba(0,0,0,.25)}
+  .m-chip{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:18px;font-size:12.5px;font-weight:600;transition:background .35s,color .35s}
+  .anno{font-size:12px;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:6px;padding:3px 9px;display:inline-block;margin:2px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Flutter UI/UX Series · Morning Session</div>
+    <h1>Workshop 11 : Material 3 Theme &amp; ColorScheme Lab</h1>
+    <p class="subtitle">เรียนรู้วิธีออกแบบสีของแอปทั้งระบบให้สอดคล้องกันด้วย <strong>ThemeData</strong> และ <strong>ColorScheme.fromSeed</strong> พร้อมรองรับโหมดสว่าง/มืดอัตโนมัติตามหลัก Material 3</p>
+  </header>
+
+  <span class="section-label">Learning Content</span>
+  <h2>หลัก Material Design กับการคุมโทนสีทั้งแอปด้วย ColorScheme</h2>
+
+  <p>ในเวิร์กช็อปนี้นักศึกษาจะได้เข้าใจว่าทำไม Flutter เวอร์ชันใหม่ถึงไม่ให้กำหนดสีปุ่ม สีพื้นหลัง หรือสีตัวอักษรแบบกระจัดกระจาย แต่ใช้แนวคิด <strong>Single Source of Truth</strong> ผ่าน <code>ThemeData</code> + <code>ColorScheme</code> เพียงจุดเดียว และระบบจะนำสีไปใช้กับวิดเจ็ตทุกตัวอัตโนมัติ ทั้งโหมดสว่างและโหมดมืด</p>
+
+  <table>
+    <tr><th>คอนเซปต์</th><th>หน้าที่ในแอปจริง</th></tr>
+    <tr><td><code>ThemeData</code></td><td>กล่องเก็บค่าสไตล์ทั้งหมดของแอป — สี ตัวอักษร รูปร่างปุ่ม ความโค้งของขอบ</td></tr>
+    <tr><td><code>ColorScheme.fromSeed</code></td><td>ผลิตชุดสีครบ 30+ ตัว (primary, surface, onPrimary, error, ฯลฯ) จากสีหลักเพียงสีเดียว</td></tr>
+    <tr><td><code>brightness</code></td><td>บอกระบบว่าเป็นโทนสว่าง (<code>Brightness.light</code>) หรือมืด (<code>Brightness.dark</code>)</td></tr>
+    <tr><td><code>themeMode</code></td><td>สวิตช์ระดับ MaterialApp ใช้ค่า <code>ThemeMode.light</code> / <code>dark</code> / <code>system</code></td></tr>
+    <tr><td><code>Theme.of(context)</code></td><td>คำสั่งดึงธีมปัจจุบันมาใช้ในวิดเจ็ตลูกได้ทุกระดับชั้น</td></tr>
+  </table>
+
+  <div class="palette">
+    <div class="swatch" style="background:#0f766e;color:#fff">primary</div>
+    <div class="swatch" style="background:#e6f4f1;color:#0f766e">primaryContainer</div>
+    <div class="swatch" style="background:#1a1d23;color:#fff">onSurface</div>
+    <div class="swatch" style="background:#f7f6f2;color:#1a1d23">surface</div>
+  </div>
+
+  <span class="section-label">Step 1</span>
+  <h2>สร้างโปรเจกต์และวางโครงสร้างไฟล์</h2>
+  <p>เปิด VS Code แล้วกดคีย์ลัด:</p>
+  <div class="code-label">Keyboard shortcut</div>
+  <pre><code>CTRL + SHIFT + P</code></pre>
+  <p>พิมพ์ <code>Flutter: New Project</code> เลือก <em>Application</em> แล้วตั้งชื่อโปรเจกต์ว่า <code>theme_color_lab</code> ตรวจโครงสร้างไฟล์ดังนี้:</p>
+  <div class="filetree">theme_color_lab
+│
+├── lib
+│   └── main.dart
+│
+└── pubspec.yaml</div>
+
+  <span class="section-label">Step 2</span>
+  <h2>ตั้งค่า ThemeData ระดับแอปด้วย ColorScheme.fromSeed</h2>
+  <p>ล้างโค้ดเดิมใน <code>lib/main.dart</code> ออกทั้งหมด แล้วเขียนสถาปัตยกรรมระบบใหม่ตามด้านล่าง</p>
+  <div class="callout"><strong>ข้อควรระวัง:</strong> ใน Material 3 ห้ามฮาร์ดโค้ดสีเช่น <code>Colors.blue</code> ใส่เข้าไปตรง ๆ ที่วิดเจ็ตทุกตัว เพราะจะไม่ตอบสนองต่อโหมดมืด ให้อ่านค่าผ่าน <code>Theme.of(context).colorScheme</code> เสมอ</div>
+  <div class="code-label">lib/main.dart</div>
+<pre><code>
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode mode = ThemeMode.light;
+
+  // ✅ จุดแก้ 1: ย้าย seedColor มาเป็น "ตัวแปร state" (ไม่ใช่ const อีกต่อไป)
+  // เพื่อให้เปลี่ยนค่าได้ตอนรันไทม์แล้วทั้งแอปวาดใหม่
+  Color seedColor = const Color(0xFF0F766E);
+
+  void toggleMode() {
+    setState(() {
+      mode = mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+    });
+  }
+
+  // ✅ จุดแก้ 2: ฟังก์ชันเปลี่ยน seed ใหม่ + ฟังก์ชันรีเซ็ต
+  // setState คือคำสั่งบอก Flutter ว่า "ค่าข้อมูลเปลี่ยนแล้ว ช่วยรีบิลด์ด้วย"
+  void changeSeed(Color newSeed) {
+    setState(() => seedColor = newSeed);
+  }
+
+  void resetSeed() {
+    setState(() => seedColor = const Color(0xFF0F766E));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      themeMode: mode,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: seedColor, // ✅ ใช้ตัวแปร state แทนค่าคงที่
+          brightness: Brightness.light,
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: seedColor, // ✅ ใช้ตัวแปร state แทนค่าคงที่
+          brightness: Brightness.dark,
+        ),
+      ),
+      home: HomePage(
+        onToggleMode: toggleMode,
+        isDark: mode == ThemeMode.dark,
+        onSeedSelected: changeSeed, // ✅ จุดแก้ 3: ส่ง callback ลงไปให้หน้าจอลูก
+        onResetSeed: resetSeed,
+      ),
+    );
+  }
+}
+</code></pre>
+
+  <details class="explain">
+    <summary>อธิบายโค้ดทีละบรรทัด (กดเพื่อศึกษาเอง)</summary>
+    <div class="body">
+      <div class="line-note"><span class="ln">StatefulWidget</span><span class="nt">ใช้ <code>StatefulWidget</code> เพราะแอปต้อง "จำ" ได้ว่าตอนนี้อยู่โหมดสว่างหรือมืด — ค่าที่เปลี่ยนได้ระหว่างรันต้องเก็บใน State</span></div>
+      <div class="line-note"><span class="ln">mode</span><span class="nt">ตัวแปร <code>ThemeMode mode</code> คือสวิตช์กลางที่บอกทั้งแอปว่าจะแสดงโทนไหน เริ่มต้นที่ <code>ThemeMode.light</code></span></div>
+      <div class="line-note"><span class="ln">toggleMode</span><span class="nt">เมธอดสลับค่าโหมด สังเกตว่าต้องห่อด้วย <code>setState(() {...})</code> เสมอ — มันคือคำสั่งบอก Flutter ว่า "ข้อมูลเปลี่ยนแล้ว ช่วยวาดหน้าจอใหม่ด้วย"</span></div>
+      <div class="line-note"><span class="ln">themeMode</span><span class="nt"><code>themeMode: mode</code> ผูกตัวแปรของเราเข้ากับ <code>MaterialApp</code> โดยตรง เมื่อ <code>mode</code> เปลี่ยน Flutter จะสลับระหว่าง <code>theme</code> กับ <code>darkTheme</code> ให้อัตโนมัติ</span></div>
+      <div class="line-note"><span class="ln">theme / darkTheme</span><span class="nt">เรากำหนด 2 ธีม โครงเหมือนกันต่างแค่ <code>brightness</code> — ตัวหนึ่ง <code>Brightness.light</code> อีกตัว <code>Brightness.dark</code></span></div>
+      <div class="line-note"><span class="ln">fromSeed</span><span class="nt"><code>ColorScheme.fromSeed(seedColor: ...)</code> คือพระเอกของบทนี้ ใส่สีหลักไปสีเดียว ระบบจะคำนวณสีลูกอีก 30+ ตัวให้ครบ (primary, surface, error, onPrimary ...) โดยรับประกันว่าอ่านออกทั้งสองโหมด</span></div>
+      <div class="line-note"><span class="ln">home</span><span class="nt">ส่งทั้งฟังก์ชัน <code>toggleMode</code> และสถานะ <code>isDark</code> ลงไปให้หน้าจอลูก เพื่อให้ปุ่มในแอปบาร์เรียกใช้ได้ — นี่คือหลักการ "ส่ง state ลงไปให้ลูก"</span></div>
+    </div>
+  </details>
+
+  <span class="section-label">Step 3</span>
+  <h2>สร้างหน้าจอที่อ่านค่าสีจาก Theme เท่านั้น</h2>
+  <p>ต่อไฟล์ <code>main.dart</code> เดิม โดยเพิ่ม <code>HomePage</code> ลงไปด้านล่างคลาส <code>_MyAppState</code>:</p>
+  <div class="code-label">lib/main.dart (ต่อ)</div>
+<pre><code>class HomePage extends StatelessWidget {
+  const HomePage({
+    super.key,
+    required this.onToggleMode,
+    required this.isDark,
+    required this.onSeedSelected, // ✅ รับ callback เปลี่ยน seed
+    required this.onResetSeed,
+  });
+
+  final VoidCallback onToggleMode;
+  final bool isDark;
+  final ValueChanged<Color> onSeedSelected; // ฟังก์ชันที่รับ "สี" 1 ตัว
+  final VoidCallback onResetSeed;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: scheme.surface,
+      appBar: AppBar(
+        title: const Text('Theme & ColorScheme Lab'),
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onPrimary,
+        actions: [
+          IconButton(
+            icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+            onPressed: onToggleMode,
+          ),
+        ],
+      ),
+      // ใช้ ListView แทน Column กันเนื้อหาล้นจอเวลาเพิ่มของ
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          Card(
+            color: scheme.primaryContainer,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'สวัสดี Material 3',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: scheme.onPrimaryContainer,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'สีทุกตัวบนหน้านี้มาจาก ColorScheme เดียวกัน',
+                    style: TextStyle(color: scheme.onPrimaryContainer),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.favorite),
+                  label: const Text('Elevated'),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: FilledButton.icon(
+                  onPressed: () {},
+                  icon: const Icon(Icons.send),
+                  label: const Text('Filled'),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          OutlinedButton(
+            onPressed: () {},
+            child: const Text('Outlined Button'),
+          ),
+          const SizedBox(height: 24),
+          // หัวข้อ + ปุ่มรีเซ็ต seed
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  'ตัวอย่างสีจาก ColorScheme (แตะเพื่อใช้เป็น seed)',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: scheme.onSurface,
+                  ),
+                ),
+              ),
+              TextButton(onPressed: onResetSeed, child: const Text('รีเซ็ต')),
+            ],
+          ),
+          const SizedBox(height: 12),
+          // ✅ จุดแก้ 4: แต่ละแถบสีส่ง onTap ที่ "เอาสีของตัวเองไปเป็น seed ใหม่"
+          _SwatchRow(
+            label: 'primary',
+            color: scheme.primary,
+            onColor: scheme.onPrimary,
+            onTap: () => onSeedSelected(scheme.primary),
+          ),
+          _SwatchRow(
+            label: 'secondary',
+            color: scheme.secondary,
+            onColor: scheme.onSecondary,
+            onTap: () => onSeedSelected(scheme.secondary),
+          ),
+          _SwatchRow(
+            label: 'tertiary',
+            color: scheme.tertiary,
+            onColor: scheme.onTertiary,
+            onTap: () => onSeedSelected(scheme.tertiary),
+          ),
+          _SwatchRow(
+            label: 'error',
+            color: scheme.error,
+            onColor: scheme.onError,
+            onTap: () => onSeedSelected(scheme.error),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class _SwatchRow extends StatelessWidget {
+  const _SwatchRow({
+    required this.label,
+    required this.color,
+    required this.onColor,
+    this.onTap, // ✅ เพิ่ม callback (ใส่ ? ได้ จะแตะหรือไม่แตะก็ได้)
+  });
+
+  final String label;
+  final Color color;
+  final Color onColor;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      // ✅ ต้องมี Material + InkWell ถึงจะ "แตะได้" และมี ripple effect
+      child: Material(
+        color: color,
+        borderRadius: BorderRadius.circular(8),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(color: onColor, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  'แตะเพื่อใช้เป็น seed →',
+                  style: TextStyle(color: onColor, fontSize: 11),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+</code></pre>
+
+  <details class="explain">
+    <summary>อธิบายโค้ดทีละบรรทัด (กดเพื่อศึกษาเอง)</summary>
+    <div class="body">
+      <div class="line-note"><span class="ln">StatelessWidget</span><span class="nt"><code>HomePage</code> เป็น <code>StatelessWidget</code> ได้ เพราะมันไม่ได้ "เป็นเจ้าของ" สถานะใด — มันแค่รับค่ามาแสดงและส่งต่อเหตุการณ์กลับขึ้นไป</span></div>
+      <div class="line-note"><span class="ln">onToggleMode / isDark</span><span class="nt">field สองตัวนี้รับมาจากแม่ (<code>_MyAppState</code>) ตัวแรกคือฟังก์ชันที่จะถูกเรียกเมื่อกดปุ่ม อีกตัวบอกว่าตอนนี้มืดอยู่ไหม (ไว้เลือกไอคอน)</span></div>
+      <div class="line-note"><span class="ln">scheme</span><span class="nt"><code>final scheme = Theme.of(context).colorScheme;</code> คือบรรทัดที่สำคัญที่สุด — มันดึงชุดสีของธีมปัจจุบันมาเก็บไว้ จากนี้ทุกสีบนหน้าจอจะอ้างจาก <code>scheme</code> ไม่มีการพิมพ์สีดิบเลย</span></div>
+      <div class="line-note"><span class="ln">backgroundColor</span><span class="nt">พื้นหลัง Scaffold ใช้ <code>scheme.surface</code> / AppBar ใช้ <code>scheme.primary</code> และตัวอักษรบนแอปบาร์ใช้ <code>scheme.onPrimary</code> — สังเกตคู่ <em>primary ↔ onPrimary</em> ที่ออกแบบให้ตัดกันพอดี</span></div>
+      <div class="line-note"><span class="ln">IconButton</span><span class="nt">ปุ่มในแอปบาร์ <code>onPressed: onToggleMode</code> เมื่อกดจะไปเรียกฟังก์ชันที่แม่ส่งมา ทำให้แม่สลับโหมด แล้วทั้งแอปวาดใหม่</span></div>
+      <div class="line-note"><span class="ln">Card / Button</span><span class="nt"><code>Card</code> ใช้ <code>scheme.primaryContainer</code> เป็นพื้น และ <code>onPrimaryContainer</code> เป็นตัวอักษร ส่วนปุ่ม <code>ElevatedButton</code>/<code>FilledButton</code> ไม่ต้องกำหนดสีเอง — มันหยิบจากธีมให้อัตโนมัติ</span></div>
+      <div class="line-note"><span class="ln">_SwatchRow</span><span class="nt">วิดเจ็ตย่อยที่เราแยกออกมาเพื่อแสดงตัวอย่างสีแต่ละช่อง รับ <code>color</code> + <code>onColor</code> เข้ามาเป็นคู่ พิสูจน์ว่าตัวอักษรอ่านออกบนพื้นสีนั้นจริง</span></div>
+      <div class="line-note"><span class="ln">FAB</span><span class="nt"><code>FloatingActionButton</code> ปุ่มกลมมุมขวาล่าง ก็ได้สีจากธีมเช่นกัน ในเวิร์กช็อปนี้ยังไม่ผูกการทำงาน (<code>onPressed: () {}</code>) ไว้ให้นักศึกษาต่อยอด</span></div>
+    </div>
+  </details>
+
+  <span class="section-label">Step 4</span>
+  <h2>รัน เปลี่ยน seedColor และสังเกตการเปลี่ยนสีทั้งแอป</h2>
+  <p>รันแอปด้วยคำสั่ง:</p>
+  <div class="code-label">Terminal</div>
+<pre><code>flutter run</code></pre>
+  <p>จากนั้นทดลองเปลี่ยน <code>seedColor</code> ใน <em>Step 2</em> เป็นค่าอื่น เช่น <code>Color(0xFF6750A4)</code> หรือ <code>Colors.deepOrange</code> แล้วบันทึก สังเกตว่า AppBar, ปุ่ม, การ์ด, FAB และ swatch ทั้งหมดเปลี่ยนสีพร้อมกันโดยที่ไม่ได้แก้โค้ดวิดเจ็ตเลยแม้แต่บรรทัดเดียว</p>
+  <div class="tip">นี่คือพลังของ <strong>ColorScheme.fromSeed</strong> — เปลี่ยนสีตัวเดียวระบบจะสร้างสีอนุพันธ์ 30+ ตัวให้อัตโนมัติทั้งโทนสว่างและมืด</div>
+
+  <hr>
+
+  <span class="section-label">Interactive Preview</span>
+  <h2>แอปนี้หน้าตาเป็นยังไง และกดตรงไหนได้บ้าง</h2>
+  <p>นี่คือตัวอย่างหน้าจอที่นักศึกษาจะได้จากโค้ดใน Step 1–4 ลองกดปุ่มต่าง ๆ ในตัวอย่างด้านล่างเพื่อดูพฤติกรรมจริง โดยเฉพาะปุ่มสลับโหมดมุมขวาบน ที่จะเปลี่ยนสีทั้งหน้าจอพร้อมกัน (จุดสำคัญที่สุดของบทเรียนนี้)</p>
+
+  <div class="demo-wrap">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen" id="screen">
+        <div class="appbar" id="appbar">
+          <span class="title">Theme &amp; ColorScheme Lab</span>
+          <button class="icon-btn" id="modeBtn" title="สลับโหมดสว่าง/มืด">🌙</button>
+        </div>
+        <div class="screen-body">
+          <div class="m-card" id="card">
+            <h4>สวัสดี Material 3</h4>
+            <p>สีทุกตัวบนหน้านี้มาจาก ColorScheme เดียวกัน</p>
+          </div>
+          <div class="m-btn-row">
+            <button class="m-btn" data-name="Elevated Button">♥ Elevated</button>
+            <button class="m-btn" data-name="Filled Button">➤ Filled</button>
+          </div>
+          <button class="m-btn outlined" data-name="Outlined Button">Outlined Button</button>
+          <div class="m-section-label" id="secLabel">ตัวอย่างสีจาก ColorScheme</div>
+          <div class="m-seedhint" id="seedHint">👆 กดที่แถบสีเพื่อใช้เป็น seedColor ใหม่</div>
+          <button class="m-swatch" data-key="primary">primary <span class="tap">ใช้เป็น seed →</span></button>
+          <button class="m-swatch" data-key="secondary">secondary <span class="tap">ใช้เป็น seed →</span></button>
+          <button class="m-swatch" data-key="tertiary">tertiary <span class="tap">ใช้เป็น seed →</span></button>
+          <button class="m-swatch" data-key="error">error <span class="tap">ใช้เป็น seed →</span></button>
+          <button class="m-reset" id="resetSeed">↻ รีเซ็ต seedColor กลับเป็นค่าเริ่มต้น</button>
+        </div>
+        <button class="m-fab" id="fab" data-name="Floating Action Button">+</button>
+        <div class="toast" id="toast"></div>
+      </div>
+    </div>
+
+    <div class="demo-guide">
+      <h3>จุดที่กดได้ (Hotspots)</h3>
+      <div class="hot"><span class="num">1</span><div><b>ปุ่มสลับโหมด</b> (มุมขวาบน 🌙/☀️) — กดแล้วทั้งหน้าจอเปลี่ยนระหว่างโหมดสว่าง/มืด นี่คือผลของ <code>onToggleMode</code> ที่เรียก <code>setState</code></div></div>
+      <div class="hot"><span class="num">2</span><div><b>ปุ่ม Elevated / Filled / Outlined</b> — ปุ่มทั้ง 3 แบบของ Material 3 สังเกตว่าสีของมันมาจากธีมโดยไม่ได้กำหนดเอง</div></div>
+      <div class="hot"><span class="num">3</span><div><b>การ์ดสีฟ้าเขียว</b> ใช้คู่สี <code>primaryContainer</code> + <code>onPrimaryContainer</code> ที่อ่านออกทั้งสองโหมด</div></div>
+      <div class="hot"><span class="num">4</span><div><b>แถบสี 4 ช่อง</b> (primary / secondary / tertiary / error) — <b style="color:var(--accent)">กดได้!</b> กดช่องไหนก็จะเอาสีนั้นไปเป็น <code>seedColor</code> ใหม่แล้วสร้าง <code>ColorScheme</code> ทั้งชุดใหม่ทันที เหมือนที่ Step 4 ให้ลองเปลี่ยน seed (มีปุ่ม ↻ รีเซ็ตกลับค่าเดิม)</div></div>
+      <div class="hot"><span class="num">5</span><div><b>ปุ่ม + มุมขวาล่าง (FAB)</b> — ในโค้ดยังไม่ผูกงาน เป็นจุดที่นักศึกษาต่อยอดได้</div></div>
+      <div class="tip" style="margin-top:16px">⚠️ นี่เป็นเพียงม็อคอัพจำลองพฤติกรรมในหน้าเว็บ ของจริงต้องรันบน Flutter ด้วย <code>flutter run</code></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // ── จำลองการทำงานของ ColorScheme.fromSeed ──
+      // ใส่ seedColor สีเดียว แล้วคำนวณสีลูกทั้งชุด (เลียนแบบหลักการของ Material 3)
+      const DEFAULT_SEED = '#0F766E'; // teal เท่ากับ seedColor ในโค้ด Step 2
+
+      function hexToHsl(hex) {
+        hex = hex.replace('#', '');
+        const r = parseInt(hex.substr(0, 2), 16) / 255;
+        const g = parseInt(hex.substr(2, 2), 16) / 255;
+        const b = parseInt(hex.substr(4, 2), 16) / 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h = 0, s = 0; const l = (max + min) / 2;
+        if (max !== min) {
+          const d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+          else if (max === g) h = (b - r) / d + 2;
+          else h = (r - g) / d + 4;
+          h *= 60;
+        }
+        return { h: h, s: s * 100, l: l * 100 };
+      }
+
+      function hslToHex(h, s, l) {
+        s /= 100; l /= 100;
+        const k = function (n) { return (n + h / 30) % 12; };
+        const a = s * Math.min(l, 1 - l);
+        const f = function (n) {
+          const c = l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+          return Math.round(255 * c).toString(16).padStart(2, '0');
+        };
+        return '#' + f(0) + f(8) + f(4);
+      }
+
+      // สร้างชุดสีจาก seed เดียว — คุมค่าให้เป็นโทน Material เสมอ จึงไม่เพี้ยนแม้กด reseed หลายครั้ง
+      function genScheme(seed, dark) {
+        const c = hexToHsl(seed);
+        const h = c.h;
+        const sat = Math.max(30, Math.min(c.s, 55)); // คุมความสดให้พอดี
+        if (!dark) {
+          return {
+            surface: hslToHex(h, 14, 97), onSurface: hslToHex(h, 18, 13),
+            primary: hslToHex(h, sat, 36), onPrimary: '#ffffff',
+            primaryContainer: hslToHex(h, sat, 87), onPrimaryContainer: hslToHex(h, sat + 15, 14),
+            secondary: hslToHex(h, 20, 40), tertiary: hslToHex((h + 60) % 360, 26, 42),
+            error: '#ba1a1a', onColor: '#ffffff'
+          };
+        }
+        return {
+          surface: hslToHex(h, 16, 9), onSurface: hslToHex(h, 8, 90),
+          primary: hslToHex(h, sat, 74), onPrimary: hslToHex(h, sat + 20, 16),
+          primaryContainer: hslToHex(h, sat, 26), onPrimaryContainer: hslToHex(h, sat, 88),
+          secondary: hslToHex(h, 22, 78), tertiary: hslToHex((h + 60) % 360, 28, 76),
+          error: '#ffb4ab', onColor: hslToHex(h, sat + 20, 16)
+        };
+      }
+
+      let isDark = false;
+      let seed = DEFAULT_SEED;
+
+      const screen = document.getElementById('screen');
+      const appbar = document.getElementById('appbar');
+      const modeBtn = document.getElementById('modeBtn');
+      const card = document.getElementById('card');
+      const fab = document.getElementById('fab');
+      const secLabel = document.getElementById('secLabel');
+      const seedHint = document.getElementById('seedHint');
+      const toast = document.getElementById('toast');
+
+      function apply() {
+        const s = genScheme(seed, isDark);
+        screen.classList.toggle('dark', isDark);
+        screen.style.background = s.surface;
+        appbar.style.background = s.primary;
+        appbar.style.color = s.onPrimary;
+        modeBtn.textContent = isDark ? '☀️' : '🌙';
+
+        card.style.background = s.primaryContainer;
+        card.style.color = s.onPrimaryContainer;
+        secLabel.style.color = s.onSurface;
+        seedHint.style.color = s.onSurface;
+        fab.style.background = s.primary;
+        fab.style.color = s.onPrimary;
+
+        document.querySelectorAll('.m-btn').forEach(function (b) {
+          if (b.classList.contains('outlined')) {
+            b.style.color = s.primary;
+            b.style.border = '1.5px solid ' + s.primary;
+            b.style.background = 'transparent';
+          } else {
+            b.style.background = s.primary;
+            b.style.color = s.onPrimary;
+          }
+        });
+
+        document.querySelectorAll('.m-swatch').forEach(function (sw) {
+          const key = sw.getAttribute('data-key');
+          sw.style.background = s[key];
+          sw.style.color = (key === 'primary') ? s.onPrimary : s.onColor;
+        });
+      }
+
+      let toastTimer;
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1700);
+      }
+
+      modeBtn.addEventListener('click', function () {
+        isDark = !isDark;
+        apply();
+        showToast('สลับเป็นโหมด ' + (isDark ? 'มืด (Brightness.dark)' : 'สว่าง (Brightness.light)'));
+      });
+
+      document.querySelectorAll('.m-btn').forEach(function (b) {
+        b.addEventListener('click', function () { showToast('กด: ' + b.getAttribute('data-name')); });
+      });
+
+      fab.addEventListener('click', function () {
+        showToast('กด: Floating Action Button (ยังไม่ผูกงานในโค้ด)');
+      });
+
+      // ── กดแถบสี = ใช้สีนั้นเป็น seedColor ใหม่ แล้วสร้าง ColorScheme ทั้งชุดใหม่ ──
+      document.querySelectorAll('.m-swatch').forEach(function (sw) {
+        sw.addEventListener('click', function () {
+          const cur = genScheme(seed, isDark);
+          seed = cur[sw.getAttribute('data-key')]; // หยิบสีที่กดมาเป็น seed
+          apply();
+          showToast('seedColor ใหม่ = ' + seed.toUpperCase() + '  →  ทั้งแอปเปลี่ยนสีพร้อมกัน');
+        });
+      });
+
+      document.getElementById('resetSeed').addEventListener('click', function () {
+        seed = DEFAULT_SEED;
+        apply();
+        showToast('รีเซ็ต seedColor กลับเป็น ' + DEFAULT_SEED);
+      });
+
+      apply();
+    })();
+  </script>
+
+  <hr>
+
+  <span class="section-label">Lab Questions &amp; Assignment</span>
+  <h2>แบบฝึกหัดทบทวนและประเมินผล — โจทย์ฝึกพัฒนา</h2>
+  <p>โจทย์ทั้ง 5 ข้อต่อยอดจากโค้ดใน Step 1–4 ทุกข้อแก้ในไฟล์เดียวคือ <code>lib/main.dart</code> ให้นักศึกษาลองหาจุดแก้ไขเองโดยใช้ <strong>ไกด์หาจุดแก้ไข</strong> ด้านล่าง แล้วเทียบผลกับ <strong>ม็อคอัพผลลัพธ์ที่ต้องการ</strong> ในตอนท้าย</p>
+
+  <ol class="lab">
+    <li><strong>สวิตช์ 3 โหมด</strong> — เพิ่มสวิตช์ใน AppBar ให้ผู้ใช้สลับได้ 3 ค่า คือ Light, Dark, System โดยใช้ <code>PopupMenuButton</code> หรือ <code>SegmentedButton</code></li>
+    <li><strong>textTheme</strong> — เพิ่ม <code>textTheme</code> ลงใน <code>ThemeData</code> กำหนด <code>titleLarge</code>, <code>bodyMedium</code>, <code>labelSmall</code> ให้มีขนาด/น้ำหนักของตัวเอง แล้วนำไปใช้ในการ์ดแทน <code>TextStyle</code> แบบดิบ</li>
+    <li><strong>เปลี่ยน seedColor ตอนรันไทม์</strong> — เพิ่มแถวจุดสีให้เลือก (เช่น Teal, Indigo, Orange, Pink) เมื่อกดให้สร้าง <code>ColorScheme.fromSeed</code> ด้วยสีใหม่ แล้วทั้งแอปเปลี่ยนสีทันที (เหมือนการกดแถบสีในม็อคอัพด้านบน)</li>
+    <li><strong>ใช้ role สีเพิ่ม</strong> — เพิ่มวิดเจ็ตใหม่ 1 ตัว เช่น <code>Chip</code> หรือแถบสถานะ ที่ใช้คู่สี <code>secondaryContainer</code> + <code>onSecondaryContainer</code> เพื่อฝึกใช้ role สีอื่นนอกจาก primary</li>
+    <li><strong>ผูกปุ่ม FAB ให้ทำงาน (ท้าทาย)</strong> — ทำให้ปุ่ม <code>FloatingActionButton</code> ที่ตอนนี้ว่างอยู่ สุ่ม <code>seedColor</code> ใหม่ทุกครั้งที่กด แล้วรีบิลด์ธีม (ใช้ร่วมกับข้อ 3)</li>
+  </ol>
+
+  <h3>📍 ไกด์หาจุดแก้ไข (ค้นเองได้ ไม่มีเฉลย)</h3>
+  <p>เปิด <code>lib/main.dart</code> แล้วใช้ <kbd>Ctrl</kbd>+<kbd>F</kbd> ค้นข้อความในคอลัมน์ "ค้นหาคำว่า" เพื่อกระโดดไปยังจุดที่ต้องแก้</p>
+  <table class="guide-tbl">
+    <tr><th>โจทย์</th><th>แก้ที่คลาส</th><th>ค้นหาคำว่า</th><th>สิ่งที่ต้องทำ (ระดับไกด์)</th></tr>
+    <tr>
+      <td>ข้อ 1</td>
+      <td><code>_MyAppState</code> + <code>HomePage</code></td>
+      <td><span class="find">ThemeMode mode</span> และ <span class="find">IconButton</span></td>
+      <td>เปลี่ยนชนิดตัวแปรโหมดให้เก็บได้ 3 ค่า, ส่งค่า+ฟังก์ชันลงไปให้ <code>HomePage</code>, แล้วเปลี่ยน <code>IconButton</code> ในแอปบาร์เป็นเมนู 3 ตัวเลือก</td>
+    </tr>
+    <tr>
+      <td>ข้อ 2</td>
+      <td><code>_MyAppState</code></td>
+      <td><span class="find">useMaterial3: true</span></td>
+      <td>เพิ่มบรรทัด <code>textTheme:</code> ต่อจาก <code>colorScheme:</code> ในทั้งสองธีม จากนั้นในการ์ด (ค้น <span class="find">สวัสดี Material 3</span>) เปลี่ยน <code>style:</code> จาก <code>TextStyle(...)</code> เป็นการดึงจาก <code>textTheme</code> + <code>.copyWith(color:)</code></td>
+    </tr>
+    <tr>
+      <td>ข้อ 3</td>
+      <td><code>_MyAppState</code> + <code>HomePage</code></td>
+      <td><span class="find">seedColor: const Color</span></td>
+      <td>ย้ายค่า seed มาเก็บเป็นตัวแปร state (เช่น <code>Color seed = ...</code>) ใช้ตัวแปรนี้แทนค่าคงที่ในทั้งสองธีม แล้วเพิ่มแถวปุ่มสีใน body เรียกฟังก์ชัน <code>setState</code> เปลี่ยนค่า <code>seed</code></td>
+    </tr>
+    <tr>
+      <td>ข้อ 4</td>
+      <td><code>HomePage</code></td>
+      <td><span class="find">final scheme =</span></td>
+      <td>หลังบรรทัดนี้มี <code>scheme</code> ให้ใช้แล้ว เพิ่มวิดเจ็ตใหม่ใน <code>Column</code> ที่กำหนด <code>color: scheme.secondaryContainer</code> และตัวอักษร <code>scheme.onSecondaryContainer</code></td>
+    </tr>
+    <tr>
+      <td>ข้อ 5</td>
+      <td><code>HomePage</code></td>
+      <td><span class="find">floatingActionButton</span></td>
+      <td>ใน <code>onPressed: () {}</code> ที่ว่างอยู่ ใส่คำสั่งเรียกฟังก์ชันสุ่มสีจากข้อ 3 (ต้องให้ FAB เข้าถึงฟังก์ชันเปลี่ยน seed ได้ — ทบทวนการส่ง callback แบบเดียวกับปุ่มสลับโหมด)</td>
+    </tr>
+  </table>
+
+  <div class="tip">💡 <strong>คำใบ้ข้อ 2:</strong> ใช้ <code>Theme.of(context).textTheme.titleLarge?.copyWith(color: scheme.onPrimaryContainer)</code> เพื่อเขียนทับเฉพาะสี โดยยังคงขนาด/น้ำหนักจากธีมเดิม &nbsp;|&nbsp; <strong>คำใบ้ข้อ 3:</strong> เมื่อ <code>seed</code> เป็น state แล้ว ทั้ง <code>theme</code> และ <code>darkTheme</code> จะอ่านค่าเดียวกัน เปลี่ยนทีเดียวเปลี่ยนทั้งคู่</div>
+
+  <hr>
+
+  <span class="section-label">Expected Output</span>
+  <span class="target-badge">🎯 ผลลัพธ์ที่ต้องการ</span>
+  <h2>ทำเสร็จแล้วหน้าตาควรเป็นแบบนี้</h2>
+  <p>ม็อคอัพนี้แสดงผลลัพธ์ <em>หลังทำโจทย์ครบ</em> ลองกดเมนูมุมขวาบน (3 โหมด) และจุดสีเลือก seed เพื่อเทียบกับงานของตัวเอง — สังเกตหัวข้อใหญ่ขึ้น (titleLarge), Chip สีรอง (ข้อ 4) และแถวเลือก seed (ข้อ 3)</p>
+
+  <div class="demo-wrap">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen" id="tScreen">
+        <div class="appbar" id="tAppbar">
+          <span class="title">Theme &amp; ColorScheme Lab</span>
+          <button class="icon-btn" id="tMenuBtn" title="เลือกโหมด (3 ค่า)">🌗</button>
+        </div>
+        <div class="menu" id="tMenu" style="display:none">
+          <button class="menu-item" data-mode="light">☀️ Light <span class="check"></span></button>
+          <button class="menu-item" data-mode="dark">🌙 Dark <span class="check"></span></button>
+          <button class="menu-item" data-mode="system">🌗 System <span class="check"></span></button>
+        </div>
+        <div class="screen-body">
+          <div class="m-card" id="tCard">
+            <h4 id="tTitle" style="font-size:24px;letter-spacing:-.3px">สวัสดี Material 3</h4>
+            <p id="tBody">สีทุกตัวบนหน้านี้มาจาก ColorScheme เดียวกัน</p>
+            <span class="anno">⬅ titleLarge (ข้อ 2) ตัวใหญ่/หนาขึ้น</span>
+          </div>
+          <div class="m-chip" id="tChip">● สถานะ: ใช้ secondaryContainer</div>
+          <span class="anno">⬆ Chip ใช้ role สีรอง (ข้อ 4)</span>
+          <div class="m-section-label" id="tSecLabel">เลือก seedColor (ข้อ 3)</div>
+          <div class="seed-row">
+            <button class="seed-dot sel" data-seed="#0F766E" style="background:#0F766E" title="Teal"></button>
+            <button class="seed-dot" data-seed="#3F51B5" style="background:#3F51B5" title="Indigo"></button>
+            <button class="seed-dot" data-seed="#EA580C" style="background:#EA580C" title="Orange"></button>
+            <button class="seed-dot" data-seed="#9C27B0" style="background:#9C27B0" title="Pink"></button>
+            <span class="lbl" id="tSeedLbl">seed = #0F766E</span>
+          </div>
+          <div class="m-swatch" data-key="primary" style="cursor:default">primary</div>
+          <div class="m-swatch" data-key="secondary" style="cursor:default">secondary</div>
+          <div class="m-swatch" data-key="tertiary" style="cursor:default">tertiary</div>
+        </div>
+        <button class="m-fab" id="tFab" title="ข้อ 5: สุ่ม seed ใหม่">🎲</button>
+        <div class="toast" id="tToast"></div>
+      </div>
+    </div>
+
+    <div class="demo-guide">
+      <h3>เช็กลิสต์ว่าทำถูกไหม</h3>
+      <div class="hot"><span class="num">1</span><div>กดไอคอนมุมขวาบน เปิดเมนูได้ <b>3 ตัวเลือก</b> (Light / Dark / System) และเลือกแล้วหน้าจอเปลี่ยนตาม</div></div>
+      <div class="hot"><span class="num">2</span><div>หัวข้อ "สวัสดี Material 3" <b>ใหญ่และหนาขึ้น</b> เพราะใช้ <code>titleLarge</code> จาก textTheme</div></div>
+      <div class="hot"><span class="num">3</span><div>มี <b>แถวจุดสีให้เลือก seed</b> กดแล้วทุกสีในจอเปลี่ยนพร้อมกัน</div></div>
+      <div class="hot"><span class="num">4</span><div>มี <b>Chip/แถบสถานะ</b> ที่ใช้คู่สี <code>secondaryContainer</code></div></div>
+      <div class="hot"><span class="num">5</span><div>ปุ่ม 🎲 (FAB) กดแล้ว <b>สุ่ม seed</b> ใหม่ทุกครั้ง</div></div>
+      <div class="tip" style="margin-top:16px">เกณฑ์ผ่าน: เปลี่ยน seed/โหมดแล้ว <strong>ทุกวิดเจ็ตเปลี่ยนสีพร้อมกัน</strong> โดยไม่มีสีฮาร์ดโค้ดหลงเหลือ และตัวอักษรอ่านออกทั้งโหมดสว่าง/มืด</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const SEEDS = ['#0F766E', '#3F51B5', '#EA580C', '#9C27B0'];
+      function hexToHsl(hex){hex=hex.replace('#','');const r=parseInt(hex.substr(0,2),16)/255,g=parseInt(hex.substr(2,2),16)/255,b=parseInt(hex.substr(4,2),16)/255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h=0,s=0;const l=(mx+mn)/2;if(mx!==mn){const d=mx-mn;s=l>0.5?d/(2-mx-mn):d/(mx+mn);if(mx===r)h=(g-b)/d+(g<b?6:0);else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60;}return{h:h,s:s*100,l:l*100};}
+      function hslToHex(h,s,l){s/=100;l/=100;const k=function(n){return (n+h/30)%12;};const a=s*Math.min(l,1-l);const f=function(n){const c=l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));return Math.round(255*c).toString(16).padStart(2,'0');};return '#'+f(0)+f(8)+f(4);}
+      function genScheme(seed, dark){
+        const c=hexToHsl(seed); const h=c.h; const sat=Math.max(30,Math.min(c.s,55));
+        if(!dark) return {surface:hslToHex(h,14,97),onSurface:hslToHex(h,18,13),primary:hslToHex(h,sat,36),onPrimary:'#ffffff',primaryContainer:hslToHex(h,sat,87),onPrimaryContainer:hslToHex(h,sat+15,14),secondary:hslToHex(h,20,40),secondaryContainer:hslToHex(h,18,86),onSecondaryContainer:hslToHex(h,22,16),tertiary:hslToHex((h+60)%360,26,42),onColor:'#ffffff'};
+        return {surface:hslToHex(h,16,9),onSurface:hslToHex(h,8,90),primary:hslToHex(h,sat,74),onPrimary:hslToHex(h,sat+20,16),primaryContainer:hslToHex(h,sat,26),onPrimaryContainer:hslToHex(h,sat,88),secondary:hslToHex(h,22,78),secondaryContainer:hslToHex(h,20,28),onSecondaryContainer:hslToHex(h,20,88),tertiary:hslToHex((h+60)%360,28,76),onColor:hslToHex(h,sat+20,16)};
+      }
+
+      let mode = 'system';   // light | dark | system
+      let seed = SEEDS[0];
+      const systemIsDark = false; // สมมติว่าระบบตั้งเป็นสว่าง
+      function effectiveDark(){ return mode === 'dark' || (mode === 'system' && systemIsDark); }
+
+      const $ = function(id){ return document.getElementById(id); };
+      const tScreen=$('tScreen'),tAppbar=$('tAppbar'),tMenuBtn=$('tMenuBtn'),tMenu=$('tMenu'),
+            tCard=$('tCard'),tTitle=$('tTitle'),tBody=$('tBody'),tChip=$('tChip'),
+            tSecLabel=$('tSecLabel'),tSeedLbl=$('tSeedLbl'),tFab=$('tFab'),tToast=$('tToast');
+
+      function apply(){
+        const dark = effectiveDark();
+        const s = genScheme(seed, dark);
+        tScreen.classList.toggle('dark', dark);
+        tScreen.style.background = s.surface;
+        tAppbar.style.background = s.primary; tAppbar.style.color = s.onPrimary;
+        tMenuBtn.textContent = mode==='light'?'☀️':mode==='dark'?'🌙':'🌗';
+        tCard.style.background = s.primaryContainer; tCard.style.color = s.onPrimaryContainer;
+        tTitle.style.color = s.onPrimaryContainer; tBody.style.color = s.onPrimaryContainer;
+        tChip.style.background = s.secondaryContainer; tChip.style.color = s.onSecondaryContainer;
+        tSecLabel.style.color = s.onSurface; tSeedLbl.style.color = s.onSurface;
+        tFab.style.background = s.primary; tFab.style.color = s.onPrimary;
+        document.querySelectorAll('#tScreen .m-swatch').forEach(function(sw){
+          const k=sw.getAttribute('data-key'); sw.style.background=s[k]; sw.style.color=(k==='primary')?s.onPrimary:s.onColor;
+        });
+        // อัปเดต check ในเมนู
+        document.querySelectorAll('#tMenu .menu-item').forEach(function(it){
+          const on = it.getAttribute('data-mode')===mode;
+          it.classList.toggle('active', on);
+          it.querySelector('.check').textContent = on ? '✓' : '';
+        });
+        // อัปเดตจุด seed ที่เลือก
+        document.querySelectorAll('#tScreen .seed-dot').forEach(function(d){
+          d.classList.toggle('sel', d.getAttribute('data-seed').toLowerCase()===seed.toLowerCase());
+        });
+        tSeedLbl.textContent = 'seed = ' + seed.toUpperCase();
+      }
+
+      let tt; function toast(m){ tToast.textContent=m; tToast.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){tToast.classList.remove('show');},1700); }
+
+      tMenuBtn.addEventListener('click', function(e){ e.stopPropagation(); tMenu.style.display = tMenu.style.display==='none' ? 'block':'none'; });
+      document.addEventListener('click', function(){ tMenu.style.display='none'; });
+      document.querySelectorAll('#tMenu .menu-item').forEach(function(it){
+        it.addEventListener('click', function(e){ e.stopPropagation(); mode=it.getAttribute('data-mode'); tMenu.style.display='none'; apply(); toast('โหมด: '+mode); });
+      });
+      document.querySelectorAll('#tScreen .seed-dot').forEach(function(d){
+        d.addEventListener('click', function(){ seed=d.getAttribute('data-seed'); apply(); toast('seedColor = '+seed.toUpperCase()); });
+      });
+      tFab.addEventListener('click', function(){ seed = SEEDS[Math.floor(Math.random()*SEEDS.length)]; apply(); toast('🎲 สุ่ม seed = '+seed.toUpperCase()); });
+
+      apply();
+    })();
+  </script>
+
+</div>
+</body>
+</html>
